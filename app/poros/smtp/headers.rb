@@ -1,12 +1,11 @@
 module Smtp
-  class Headers
+  class Headers < Array
     def initialize(*headers)
-      @headers = headers
-      puts to_s
+      super headers.flatten
     end
 
     def to_s
-      @headers.join('') + "\n"
+      join('')
     end
   end
 end
