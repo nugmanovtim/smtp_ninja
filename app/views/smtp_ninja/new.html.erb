@@ -1,0 +1,29 @@
+<h1>SmtpNinja</h1>
+<% if @send_email_form.errors.any? %>
+<ul>
+  <% @send_email_form.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+  <% end %>
+</ul>
+<% end %>
+<%= form_for @send_email_form, url: send_mail_path, method: :post do |f| %>
+  <div>
+    Username: <%= f.text_field :username %>
+    Password: <%= f.password_field :password %>
+  </div>
+  <div>
+    Server: <%= f.text_field :server %>
+    Port: <%= f.text_field :port %>
+  </div>
+  <div>
+    From: <%= f.text_field :from %>
+    To: <%= f.text_field :to %>
+  </div>
+  <div>
+    Subject: <%= f.text_field :subject %>
+  </div>
+  <div>
+    Message: <%= f.text_area :message %>
+  </div>
+  <%= f.submit 'Send' %>
+<% end %>

@@ -1,14 +1,10 @@
 module Smtp
   class EmailAddress < String
+
+    REGEX = /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
     def initialize(value)
-      super value
-      validate
-    end
-
-    private
-
-    def validate
-      #raise InvalidEmail
+      @value = value
+      super @value
     end
   end
 end

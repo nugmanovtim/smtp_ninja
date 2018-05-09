@@ -1,0 +1,2 @@
+module SmtpNinjaHelper
+end
