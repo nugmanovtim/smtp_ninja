@@ -20,6 +20,6 @@ class SmtpNinjaController < ApplicationController
           .permit(:username, :password,
                   :server, :port,
                   :from, :to,
-                  :subject, :message)
+                  :subject, :message, :attachment)
   end
 end

@@ -25,5 +25,8 @@
   <div>
     Message: <%= f.text_area :message %>
   </div>
+  <div>
+    Attachment: <%= f.file_field :attachment %>
+  </div>
   <%= f.submit 'Send' %>
 <% end %>

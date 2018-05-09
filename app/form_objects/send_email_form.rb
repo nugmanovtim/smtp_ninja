@@ -2,6 +2,7 @@ class SendEmailForm
   include ActiveModel::Model
   ESSENTIAL_FIELDS = %i[username password server port from to subject message].freeze
   attr_accessor(*ESSENTIAL_FIELDS)
+  attr_accessor :attachment
 
   ESSENTIAL_FIELDS.each { |field| validates field, presence: true }
   validates :port, numericality: true
@@ -23,7 +24,16 @@ class SendEmailForm
   end
 
   def email
-    @email ||= Smtp::Email.new(sender, recipients, Smtp::Subject.new(@subject), Smtp::Message.new(@message))
+    @email ||=
+      if @attachment.present?
+        Smtp::EmailWithAttachment.new(
+          *email_params,
+          Smtp::Attachment.new(@attachment.original_filename,
+                               @attachment.tempfile.read)
+        )
+      else
+        Smtp::Email.new(*email_params)
+      end
   end
 
   def sender
@@ -32,5 +42,9 @@ class SendEmailForm
 
   def recipients
     @recipients ||= Smtp::EmailAddresses.new(@to)
+  end
+
+  def email_params
+    [sender, recipients, Smtp::Subject.new(@subject), Smtp::Message.new(@message)]
   end
 end
